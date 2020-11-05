@@ -113,22 +113,22 @@ class DBSession:
         return found
 
 
+# ==========================================================
 
-#==========================================================
 
     def read_users(self):
-            query = 'SELECT BIN_TO_UUID(uuid), name FROM users'
+        query = 'SELECT BIN_TO_UUID(uuid), name FROM users'
 
-            with self.connection.cursor() as cursor:
-                cursor.execute(query)
-                db_results = cursor.fetchall()
+        with self.connection.cursor() as cursor:
+            cursor.execute(query)
+            db_results = cursor.fetchall()
 
-            return {
-                uuid_: User(
-                    name=field_name,
-                )
-                for uuid_, field_name in db_results
-            }
+        return {
+            uuid_: User(
+                name=field_name,
+            )
+            for uuid_, field_name in db_results
+        }
 
     def create_user(self, item: User):
         uuid_ = uuid.uuid4()
@@ -205,8 +205,7 @@ class DBSession:
         return found
 
 
-
-@lru_cache
+@lru_cache()
 def get_credentials(
         config_file_name: str = Depends(get_config_filename),
         secrets_file_name: str = Depends(get_app_secrets_filename),
@@ -229,7 +228,3 @@ def get_db(credentials: dict = Depends(get_credentials)):
         yield DBSession(connection)
     finally:
         connection.close()
-
-
-
-    
