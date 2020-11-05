@@ -188,13 +188,13 @@ def test_alter_task():
     userID = response.json()
 
     # Create a task.
-    task = {'description': 'foo', 'completed': False, 'userID': user}
+    task = {'description': 'foo', 'completed': False, 'userID': userID}
     response = client.post('/task', json=task)
     assert response.status_code == 200
     uuid_ = response.json()
 
     # Replace the task.
-    new_task_partial = {'completed': True, 'userID': user}
+    new_task_partial = {'completed': True, 'userID': userID}
     response = client.patch(f'/task/{uuid_}', json=new_task_partial)
     assert response.status_code == 200
 
@@ -252,7 +252,7 @@ def test_delete_all_tasks():
     userID = response.json()
 
     # Create a task.
-    task = {'description': 'foo', 'completed': False, 'userID': user}
+    task = {'description': 'foo', 'completed': False, 'userID': userID}
     response = client.post('/task', json=task)
     assert response.status_code == 200
     uuid_ = response.json()
